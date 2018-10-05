@@ -1,0 +1,136 @@
+#boxComponent {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+#msBTN {
+    position: absolute;
+    top:50px
+}
+
+#msBOX {
+    position: absolute;
+    top:50px
+}
+
+#btnComp:active {
+    transform: translateY(6px);
+}
+
+.mydiv {
+    padding-bottom: 10px;
+    position: absolute;
+    z-index: 9;
+    background-color: #f1f1f1;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+}
+
+#head {
+    margin-right: 10px;
+    width: 10px;
+    height: 10px;
+}
+
+#MrM_HEADER {
+    text-align: left;
+    font-weight: 600;
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #0195c3;
+    color: #eff3f6;
+}
+
+
+/* testing */
+
+/* Chat containers */
+.container {
+    font-size: 14px;
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 15px 10px 0 10px;
+    width: 200px;
+}
+
+/* Darker chat container */
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+    width: 200px;
+}
+
+/* Clear floats */
+.container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Style images */
+.container img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+/* Style the right image */
+.container img.right {
+    float: right;
+    height: 60px;
+    height: 60px;
+    margin-left: 20px;
+    margin-right: 0;
+}
+
+/* Style time text */
+.time-right {
+    float: right;
+    color: #aaa;
+}
+
+/* Style time text */
+.time-left {
+    float: left;
+    color: #999;
+}
+
+
+#textContainer {
+    overflow-y: scroll;
+    height: 250px;
+}
+
+#result {
+    width: 150vh;
+    height: 50vh;
+    margin-bottom:10px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+    justify-content: center;
+}
+
+#name {
+    font-size: 15px;
+}
+
+#chrImg {
+    width: 50px;
+    height: 50px;
+}
+
+#characterCont {
+    border: 1px solid black;
+    margin: 10px;
+    height: 200px;
+    width: 200px;
+}
