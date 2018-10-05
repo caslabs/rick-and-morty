@@ -53,9 +53,9 @@ document.querySelector("#btnComp").addEventListener("click", () => {
                 .map(characterData => {
                     return `
                 <div id="characterCont">
+                  <div><img id="chrImg" src="${characterData.image}"></div>
                   <h1 id="name" >Name: ${characterData.name}</h1>
-                  <div>Image: <img id="chrImg" src="${characterData.image}"></div>
-                  <div>Origin Name: ${characterData.origin.name}</div>
+                  <div>Origin-Name: ${characterData.origin.name}</div>
                   <div>Status:${characterData.status}</div>
                 </div>
                 `;
