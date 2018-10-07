@@ -108,8 +108,8 @@
 }
 
 #result {
-    width: 150vh;
-    height: 50vh;
+    width: 180vh;
+    height: 70vh;
     margin-bottom:10px;
     overflow-y: scroll;
     display: flex;
