@@ -1,26 +1,46 @@
 const result = document.querySelector('#result');
 const MrMeeseeks = document.querySelector("#audioPlay");
+const MrMeeseeksOUT = document.querySelector('#audioPlayOUT')
+const PortalSound = document.querySelector('#PortalSound')
 var textboxAmt = 0;
 var books = [ ];
 
+const portal = Bodies.rectangle(750, 0, 0.01, 0.01, { 
+    collisionFilter: {
+        mask: wall
+    },
+    id:400,
+    isStatic: true,
+    render: {
+        id:'portal',
+        strokeStyle: '#ffffff',
+        sprite: {
+            texture: './img/portal.png',
+            xScale: 0.8,
+            yScale: 0.4
+        }
+    }
+ })
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
 
 document.querySelector("#btnComp").addEventListener("click", () => {
     
     MrMeeseeks.play(); //plays introduction
     textboxAmt++;
     document.querySelector("#chatBoxArea").innerHTML +=
+
         `
-    <div class="mydiv">
+    <div style="top:${getRandomInt(61)}%;left:${getRandomInt(61)}%" class="mydiv">
     <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
     <div id="MrM_HEADER"><img id="head" src="./img/MSB-assets/onlineStatus.png" alt="online">Mr Meeseeks</div>
-
     <div id="textContainer">
         <div class="container">
             <img src="./img/MSB-assets/ProfileMSB.jpg" alt="Avatar">
             <p>I'm Mr Meeseeks look at me!</p>
         </div>
-
-
     </div>
     <div id="form">
         <input id="val" type="text" id="myText" value="rick">
@@ -33,15 +53,18 @@ document.querySelector("#btnComp").addEventListener("click", () => {
 
     const textContainer = document.querySelector('#textContainer');
     document.getElementById("sendBtn").addEventListener("click", () => {
-        setInterval(updateScroll,300);
         textContainer.innerHTML += youSaid(document.getElementById("val").value);
         axios
             .get(`https://rickandmortyapi.com/api/character/?name=${document.getElementById("val").value}`)
             .then(response => {
                 textContainer.innerHTML += MrMeeseeksSays("Will DoOOoo");
                 textContainer.innerHTML += MrMeeseeksSays(`printing out ${response.data.results.length} ${document.getElementById("val").value}s`);
-                setInterval(updateScroll,300);
+                updateScroll();
+                World.add(engine.world, portal)
                 htmlTemplateBuilder(response.data.results); 
+                setTimeout(function(){ document.querySelector("#chatBoxArea").innerHTML = ""; MrMeeseeksOUT.play(); }, 500);
+                PortalSound.play();
+                setTimeout(function(){ Matter.Composite.remove(world, portal)}, 1000);
             })
             .catch(error => {
                 textContainer.innerHTML += MrMeeseeksSays("uh oh");
@@ -53,11 +76,12 @@ document.querySelector("#btnComp").addEventListener("click", () => {
         const htmlTemplateBuilder = response => {
            response
             .map(characterData => {
-                books.push(addSquare(characterData.image, characterData.name));
-                return World.add(engine.world, addSquare(characterData.image, characterData.name));
+                return World.add(engine.world, [
+                    addSquare(characterData.image, characterData.name, characterData.species, characterData.origin.name, characterData.status),
+                ]);
+                
             })  
         };
-        setInterval(updateScroll,300); //this auto scrolls textbox to bottom
     });
 
     function updateScroll() {
@@ -83,32 +107,7 @@ document.querySelector("#btnComp").addEventListener("click", () => {
         `
     }
 });
-    $("canvas").on("mousedown", function(e){
-        mouseX1 = e.pageX;
-        mouseY1 = e.pageY;
-    });
 
-    $("canvas").click(function(e){
-        var parentOffset = $(this).parent().offset(); 
-        //or $(this).offset(); if you really just want the current element's offset
-        var relX = e.pageX - parentOffset.left;
-        var relY = e.pageY - parentOffset.top;
-        console.log(relX);
-        console.log(relY);
-     });
+  
+$("#boxComponent").draggable(); //draggable div. using jquery libraries
 
-    console.log(Matter.Query.point(books, {x:13, y:13}));
-    $("canvas").on("mouseup", function(e){
-        mouseX2 = e.pageX;
-        mouseY2 = e.pageY;
-        if((mouseX1 == mouseX2) && (mouseY1 == mouseY2)){
-            console.log(books);
-            console.log(mouseX2)
-            console.log(mouseY2)
-            console.log(Matter.Query.point(books,{x:mouseX2, y:mouseY2}));
-            if (Matter.Query.point(books,{x:mouseX2, y:mouseY2}).length > 0) {
-                var bodyToClick = Matter.Query.point(books,{x:mouseX2, y:mouseY2})[0];
-                alert(bodyToClick.title2);
-        }
-    }
-    })

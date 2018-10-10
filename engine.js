@@ -1,6 +1,7 @@
 var Engine = Matter.Engine,
         Render = Matter.Render,
         Runner = Matter.Runner,
+        Composite = Matter.Composite,
         Composites = Matter.Composites,
         Common = Matter.Common,
         MouseConstraint = Matter.MouseConstraint,
@@ -17,7 +18,9 @@ var Engine = Matter.Engine,
         element: document.getElementById('result'),
         engine: engine,
         options: {
-            wireframes: false
+            width:1500,
+            wireframes: false,
+            background: '#ffffff',
         }
     });
 
@@ -27,28 +30,41 @@ var Engine = Matter.Engine,
     var runner = Runner.create();
     Runner.run(runner, engine);
 
-    var addSquare = function (img, name) {
-        return Bodies.rectangle(15, 15, 64, 64, {
+    /*
+            - image
+        - name
+        - species
+        - origin name
+        - status
+        */
+    var characters = 0x0001; //collidinfg
+    var wall = 0x0002;
+
+    var addSquare = function (img, name, species, oN, status) {
+        return Bodies.rectangle(750, 0, 110, 110, {
+            collisionFilter: {
+                category: characters
+            },
             render: {
                 id:'characters',
                 strokeStyle: '#ffffff',
                 sprite: {
                     texture: img,
-                    xScale: 0.2,
-                    yScale: 0.2
+                    xScale: 0.4,
+                    yScale: 0.4
                 },
             },
-            title2 : name
+            name : name,
+            species : species,
+            oN : oN,
+            status: status
         });
        };
     
 
     World.add(world, [
         // walls
-        Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
-        Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
-        Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
-        Bodies.rectangle(0, 300, 50, 600, { isStatic: true })
+        Bodies.rectangle(400, 600, 2500, 50, { isStatic: true })
     ]);
 
     // add mouse control
@@ -74,6 +90,21 @@ var Engine = Matter.Engine,
 
     // context for MatterTools.Demo
 
-    var book1 = addSquare('oofy', 'oofybane');
-    var book2 = addSquare('oofy', 'oofybane1');
-    var book3 = addSquare('oofy', 'oofybane2');
+
+    const DNAbox = document.querySelector('#DNAbox');
+    const canvasElement = document.querySelector('canvas');
+
+    canvasElement.onmousedown = function(event) {
+        let mouse = Matter.Vector.create(event.offsetX, event.offsetY);
+        console.log(mouse);
+        let bodies = Matter.Composite.allBodies(engine.world);
+        console.log(bodies);
+        let picked = Matter.Query.point(bodies,mouse);
+        DNAbox.innerHTML = `
+        <p class="DNAtext">${picked[0].name}</p>
+        <p class="DNAtext">${picked[0].species}</p>
+        <p class="DNAtext">${picked[0].oN}</p>
+        <p class="DNAtext">${picked[0].status}</p>
+        `
+    }
+    
