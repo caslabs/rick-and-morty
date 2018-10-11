@@ -54,8 +54,9 @@ document.querySelector("#btnComp").addEventListener("click", () => {
     const textContainer = document.querySelector('#textContainer');
     document.getElementById("sendBtn").addEventListener("click", () => {
         textContainer.innerHTML += youSaid(document.getElementById("val").value);
+        var userSaid = decryptUserSTR(document.getElementById("val").value);
         axios
-            .get(`https://rickandmortyapi.com/api/character/?name=${document.getElementById("val").value}`)
+            .get(userSaid)
             .then(response => {
                 textContainer.innerHTML += MrMeeseeksSays("Will DoOOoo");
                 textContainer.innerHTML += MrMeeseeksSays(`printing out ${response.data.results.length} ${document.getElementById("val").value}s`);
@@ -111,3 +112,14 @@ document.querySelector("#btnComp").addEventListener("click", () => {
   
 $("#boxComponent").draggable(); //draggable div. using jquery libraries
 
+
+function decryptUserSTR(str) {
+    var userSTR = str.split(" ");
+
+    //rick
+    if (userSTR[0] === "alive" || userSTR[0] === "dead" || userSTR[0] === "uknown") {
+        return `https://rickandmortyapi.com/api/character/?name=${userSTR[1]}&status=${userSTR[0]}`
+    } else {
+        return `https://rickandmortyapi.com/api/character/?name=${userSTR[0]}`
+    }
+}
