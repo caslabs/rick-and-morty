@@ -95,10 +95,14 @@ render.mouse = mouse;
 // context for MatterTools.Demo
 
 
-const DNAbox = document.querySelector('#DNAbox');
+var DNAbox;
 const canvasElement = document.querySelector('canvas');
-
 canvasElement.onmousedown = function (event) {
+    if (document.querySelector('#DNAbox') === null) {
+        document.querySelector('#cont').innerHTML += `<div id="DNAbox"></div>`
+        DNAbox  = document.querySelector('#DNAbox');
+     }  else {
+
     let mouse = Matter.Vector.create(event.offsetX, event.offsetY);
     console.log(mouse);
     let bodies = Matter.Composite.allBodies(engine.world);
@@ -116,4 +120,6 @@ canvasElement.onmousedown = function (event) {
         <p class="glitch" data-text="status :${picked[0].status}">status : ${picked[0].status}</p>
         </div>
         `
+
+}
 }

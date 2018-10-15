@@ -34,7 +34,6 @@ document.querySelector("#btnComp").addEventListener("click", () => {
 
         `
     <div style="top:${getRandomInt(61)}%;left:${getRandomInt(61)}%" class="mydiv">
-    <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
     <div id="MrM_HEADER"><img id="head" src="./img/MSB-assets/onlineStatus.png" alt="online">Mr Meeseeks</div>
     <div id="textContainer">
         <div class="container">
@@ -43,7 +42,7 @@ document.querySelector("#btnComp").addEventListener("click", () => {
         </div>
     </div>
     <div id="form">
-        <input id="val" type="text" id="myText" value="rick">
+        <input id="val" type="text" id="myText" value="help">
         <button id="sendBtn" type="button">Send</button>
     </div>
 </div>
@@ -55,6 +54,13 @@ document.querySelector("#btnComp").addEventListener("click", () => {
     document.getElementById("sendBtn").addEventListener("click", () => {
         textContainer.innerHTML += youSaid(document.getElementById("val").value);
         var userSaid = decryptUserSTR(document.getElementById("val").value);
+        if (userSaid==='help') {
+            textContainer.innerHTML += MrMeeseeksSays("|name|");
+            textContainer.innerHTML += MrMeeseeksSays("|status| |name|");
+            textContainer.innerHTML += MrMeeseeksSays("e.g : dead morty");
+            updateScroll();
+
+        } else {
         axios
             .get(userSaid)
             .then(response => {
@@ -63,14 +69,14 @@ document.querySelector("#btnComp").addEventListener("click", () => {
                 updateScroll();
                 World.add(engine.world, portal)
                 htmlTemplateBuilder(response.data.results); 
-                setTimeout(function(){ document.querySelector("#chatBoxArea").innerHTML = ""; MrMeeseeksOUT.play(); }, 500);
+                setTimeout(function(){ document.querySelector("#chatBoxArea").innerHTML = ""; MrMeeseeksOUT.play(); }, 1000);
                 PortalSound.play();
                 setTimeout(function(){ Matter.Composite.remove(world, portal)}, 1000);
             })
             .catch(error => {
                 textContainer.innerHTML += MrMeeseeksSays("uh oh");
                 textContainer.innerHTML += MrMeeseeksSays(`
-                I only listen to commands: search /name/
+                Calling Mr.Meeseek Tech Support
                 `)
             });
 
@@ -83,7 +89,9 @@ document.querySelector("#btnComp").addEventListener("click", () => {
                 
             })  
         };
-    });
+     } });
+
+    
 
     function updateScroll() {
         var element = document.getElementById("textContainer");
@@ -119,6 +127,8 @@ function decryptUserSTR(str) {
     //rick
     if (userSTR[0] === "alive" || userSTR[0] === "dead" || userSTR[0] === "uknown") {
         return `https://rickandmortyapi.com/api/character/?name=${userSTR[1]}&status=${userSTR[0]}`
+    } else if (userSTR[0] === "help") {
+        return 'help'
     } else {
         return `https://rickandmortyapi.com/api/character/?name=${userSTR[0]}`
     }

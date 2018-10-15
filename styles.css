@@ -154,6 +154,7 @@
 #DNAbox {
     width:20%;
     height: 45%;
+    border-bottom-right-radius: 10%;
     background-color:#2561c9;
     opacity: 0.7;
     position:fixed;
@@ -452,19 +453,19 @@ body {
   .example-three > img {
     position: absolute;
     opacity:0.7;
-    top: 20px;
-    left: 90px;
+    top: 10px;
+    left: 10px;
   }
   .example-three > img:nth-child(2),
   .example-three > img:nth-child(3) {
     clip: rect(0, 0, 0, 0);
   }
   .example-three > img:nth-child(2) {
-    left: 92px;
+    left: 13px;
     animation: example-three-anim-1 2s infinite linear alternate-reverse;
   }
   .example-three > img:nth-child(3) {
-    left: 93px;
+    left: 12px;
     animation: example-three-anim-2 3s infinite linear alternate-reverse;
   }
   
